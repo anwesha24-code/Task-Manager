@@ -8,26 +8,28 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fallback from '../../components/fallback';
-const { width } = Dimensions.get('window');
 
+const { width } = Dimensions.get('window');
 const Managetask = () => {
-    const [selectedValue, setSelectedValue] = useState("");
-    const [taskName, setTaskName] = useState("");
+    const [selectedValue, setSelectedValue] = useState('');
+    const [taskName, setTaskName] = useState('');
     const [tasks, setTasks] = useState([]);
     const [editTaskId, setEditTaskId] = useState(null);
+    const [filterCategory, setFilterCategory] = useState('');
+    const [filterCompletion, setFilterCompletion] = useState('');
 
     // Add or update a task
     const handleAddTask = () => {
-        if (taskName.trim() === "") {
-            alert("Please enter a task name.");
+        if (taskName.trim() === '') {
+            alert('Please enter a task name.');
             return;
         }
-        if (selectedValue === "") {
-            alert("Please select a priority.");
+        if (selectedValue === '') {
+            alert('Please select a category.');
             return;
         }
 
@@ -35,31 +37,39 @@ const Managetask = () => {
             // Update existing task
             const updatedTasks = tasks.map((task) =>
                 task.id === editTaskId
-                    ? { ...task, name: taskName, priority: selectedValue }
+                    ? { ...task, name: taskName, category: selectedValue }
                     : task
             );
             setTasks(updatedTasks);
-            setEditTaskId(null); // Reset edit mode
+            setEditTaskId(null);
         } else {
             // Add new task
             const newTask = {
                 id: Date.now(),
                 name: taskName,
-                priority: selectedValue,
+                category: selectedValue,
+                completed: false,
             };
             setTasks([newTask, ...tasks]);
         }
 
-        // Clear inputs
-        setTaskName("");
-        setSelectedValue("");
+        setTaskName('');
+        setSelectedValue('');
+    };
+
+    // Toggle task completion
+    const handleToggleCompletion = (id) => {
+        const updatedTasks = tasks.map((task) =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+        );
+        setTasks(updatedTasks);
     };
 
     // Populate inputs for editing
     const handleEditTask = (id) => {
         const taskToEdit = tasks.find((task) => task.id === id);
         setTaskName(taskToEdit.name);
-        setSelectedValue(taskToEdit.priority);
+        setSelectedValue(taskToEdit.category);
         setEditTaskId(id);
     };
 
@@ -67,6 +77,14 @@ const Managetask = () => {
     const handleDelTask = (id) => {
         setTasks(tasks.filter((task) => task.id !== id));
     };
+
+    // Apply filters
+    const filteredTasks = tasks.filter((task) => {
+        let categoryMatch = !filterCategory || task.category === filterCategory;
+        let completionMatch =
+            filterCompletion === '' || task.completed === (filterCompletion === 'completed');
+        return categoryMatch && completionMatch;
+    });
 
     return (
         <View style={styles.container}>
@@ -76,7 +94,7 @@ const Managetask = () => {
             </View>
 
             <View style={styles.card}>
-                {/* Input area */}
+                {/* Input Area */}
                 <View style={styles.row}>
                     <TextInput
                         placeholder="Enter Task"
@@ -92,46 +110,96 @@ const Managetask = () => {
                             onValueChange={(itemValue) => setSelectedValue(itemValue)}
                             style={styles.picker}
                         >
-                            <Picker.Item label="Priority" value="" enabled={false} />
-                            <Picker.Item label="High" value="high" />
-                            <Picker.Item label="Medium" value="medium" />
-                            <Picker.Item label="Low" value="low" />
+                            <Picker.Item label="Category" value="" enabled={false} />
+                            <Picker.Item label="Work" value="work" />
+                            <Picker.Item label="Personal" value="personal" />
+                            <Picker.Item label="Urgent" value="urgent" />
                         </Picker>
                     </View>
                 </View>
 
                 <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
                     <Text style={styles.ButtonText}>
-                        {editTaskId ? "Update" : "Add"}
+                        {editTaskId ? 'Update' : 'Add'}
                     </Text>
                 </TouchableOpacity>
 
-                {/* Display all tasks */}
+                {/* Filters */}
+                <View style={styles.filterContainer}>
+                    {/* Category Filter */}
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={filterCategory}
+                            onValueChange={(itemValue) => setFilterCategory(itemValue)}
+                            style={styles.picker}
+                        >
+                            <Picker.Item label="All" value="" />
+                            <Picker.Item label="Work" value="work" />
+                            <Picker.Item label="Personal" value="personal" />
+                            <Picker.Item label="Urgent" value="urgent" />
+                        </Picker>
+                    </View>
+
+                    {/* Completion Filter */}
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={filterCompletion}
+                            onValueChange={(itemValue) => setFilterCompletion(itemValue)}
+                            style={styles.picker}
+                        >
+                            <Picker.Item label="All" value="" />
+                            <Picker.Item label="Completed" value="completed" />
+                            <Picker.Item label="Incomplete" value="incomplete" />
+                        </Picker>
+                    </View>
+                </View>
+
+                {/* Display Tasks */}
                 <ScrollView style={styles.tasklist}>
-                    {tasks.length > 0 ? (
-                        tasks.map((task) => (
+                    {filteredTasks.length > 0 ? (
+                        filteredTasks.map((task) => (
                             <View key={task.id} style={styles.taskbox}>
                                 <Text style={styles.subheading}>
-                                    {task.name.charAt(0).toUpperCase() + task.name.slice(1).toLowerCase()}
+                                    {task.name.charAt(0).toUpperCase() +
+                                        task.name.slice(1).toLowerCase()}
                                 </Text>
                                 <Text style={styles.priority}>
-                                    {task.priority.charAt(0).toUpperCase() + task.priority.slice(1).toLowerCase()}
+                                    {task.category.charAt(0).toUpperCase() +
+                                        task.category.slice(1).toLowerCase()}
                                 </Text>
                                 <View style={styles.row}>
-                                    <TouchableOpacity onPress={() => handleEditTask(task.id)} style={styles.iconButton}>
+                                    <TouchableOpacity
+                                        onPress={() => handleToggleCompletion(task.id)}
+                                        style={styles.checkbox}
+                                    >
+                                        <FontAwesome
+                                            name={task.completed ? 'check-square' : 'square-o'}
+                                            size={24}
+                                            color={task.completed ? '#28A745' : '#1B3A7A'}
+                                        />
+                                        
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        onPress={() => handleEditTask(task.id)}
+                                        style={styles.iconButton}
+                                    >
                                         <FontAwesome name="edit" size={20} color="#1B3A7A" />
                                         <Text style={styles.iconText}>Edit</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => handleDelTask(task.id)} style={[styles.iconButton, { marginLeft: 10 }]}>
+
+                                    <TouchableOpacity
+                                        onPress={() => handleDelTask(task.id)}
+                                        style={[styles.iconButton, { marginLeft: 10 }]}
+                                    >
                                         <FontAwesome name="trash" size={20} color="#1B3A7A" />
                                         <Text style={styles.iconText}>Delete</Text>
                                     </TouchableOpacity>
                                 </View>
-
                             </View>
                         ))
                     ) : (
-                        // Display when list is empty
+                         // Display when list is empty
                         <Fallback />
                     )}
                 </ScrollView>
@@ -141,6 +209,32 @@ const Managetask = () => {
 };
 
 const styles = StyleSheet.create({
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+    },
+    filterButton: {
+        backgroundColor: '#1B3A7A',
+        borderRadius: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        marginHorizontal: 5,
+    },
+
+    filterContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 20,
+        marginTop: 10,
+    },
+    filterButton: {
+        backgroundColor: '#1B3A7A',
+        borderRadius: 12,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        marginHorizontal: 5,
+    },
     textbox: {
         backgroundColor: '#E3F0FF',
         borderRadius: 10,
@@ -148,6 +242,7 @@ const styles = StyleSheet.create({
         flex: 3,
         marginRight: 10,
         height: 50,
+        color: '#000',
     },
     tasklist: {
         maxHeight: 450,
@@ -162,10 +257,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F9FA',
         width: width * 0.9,
         alignSelf: 'center',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.15,
-        shadowRadius: 6,
+        boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
         elevation: 3,
     },
     priority: {
@@ -175,6 +267,14 @@ const styles = StyleSheet.create({
     picker: {
         height: 50,
         width: '100%',
+    },
+    pickerContainer: {
+        backgroundColor: '#E3F0FF',
+        borderRadius: 10,
+        paddingHorizontal: 5,
+        flex: 3,
+        height: 50,
+        justifyContent: 'center', // Center align picker text
     },
     addButton: {
         backgroundColor: '#1B3A7A',
@@ -188,7 +288,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontWeight: 'bold',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 18,
     },
     iconButton: {
         flexDirection: 'row',
@@ -200,11 +300,13 @@ const styles = StyleSheet.create({
         color: '#1B3A7A',
         fontSize: 14,
     },
-
+    statusText: {
+        marginRight: 15,
+    },
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end', // Aligns all elements properly
         width: '100%',
         paddingHorizontal: 10,
     },
@@ -231,11 +333,11 @@ const styles = StyleSheet.create({
         padding: 24,
         borderRadius: 20,
         alignItems: 'center',
+        width: '100%',
+        marginVertical: 10,
         elevation: 6,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
+        boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
+
         width: '100%',
         marginVertical: 10,
     },

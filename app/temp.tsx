@@ -7,10 +7,11 @@ const Index = () => {
   const router = useRouter();
 
   const onLogin = () => {
-    router.navigate('/login');
+    router.push('/signup'); // Navigate to the login page
   };
+
   const onSignup = () => {
-    router.navigate('/signup');
+    router.push('/signup'); // Navigate to the signup page
   };
 
   return (
@@ -38,10 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     alignItems: 'center',
     elevation: 6, // Android shadow
-    shadowColor: '#000', // iOS shadow
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    
     minWidth: 320,
   },
   heading: {
