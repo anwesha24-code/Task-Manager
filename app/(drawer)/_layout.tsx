@@ -28,13 +28,7 @@ const Index = () => {
             drawerIcon: () => <FontAwesome name="user" size={20} color="#1B3A7A" />,
           }}
         />
-        <Drawer.Screen
-          name="settings"
-          options={{
-            title: 'Settings',
-            drawerIcon: () => <FontAwesome name="cog" size={20} color="#1B3A7A" />,
-          }}
-        />
+        
       </Drawer>
     </GestureHandlerRootView>
   );

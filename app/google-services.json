@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "265997008127",
+    "project_id": "rntaskmanager-4e83e",
+    "storage_bucket": "rntaskmanager-4e83e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265997008127:android:81193cf738591c945020ca",
+        "android_client_info": {
+          "package_name": "taskapp.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265997008127-2u6jnp5v2llgbnjqjon0l0q1l530st8h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADUUf2LdidmPfbO7ECcO5fRoucuLpfRkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265997008127-2u6jnp5v2llgbnjqjon0l0q1l530st8h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

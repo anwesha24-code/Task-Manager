@@ -12,17 +12,23 @@ import {
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fallback from '../../components/fallback';
+import { useTaskStats } from '../contexts/TaskContext';
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');// Use the context function to update stats
+
 const Managetask = () => {
-    const [selectedValue, setSelectedValue] = useState('');
+    // Use context for task stats
+    const { calculateAndSaveStats } = useTaskStats();
+
+    // States for task management
     const [taskName, setTaskName] = useState('');
+    const [selectedValue, setSelectedValue] = useState('');
     const [tasks, setTasks] = useState([]);
     const [editTaskId, setEditTaskId] = useState(null);
     const [filterCategory, setFilterCategory] = useState('');
     const [filterCompletion, setFilterCompletion] = useState('');
 
-    // Add or update a task
+    // Add or update task
     const handleAddTask = () => {
         if (taskName.trim() === '') {
             alert('Please enter a task name.');
@@ -33,28 +39,28 @@ const Managetask = () => {
             return;
         }
 
+        let updatedTasks;
         if (editTaskId) {
-            // Update existing task
-            const updatedTasks = tasks.map((task) =>
+            updatedTasks = tasks.map((task) =>
                 task.id === editTaskId
                     ? { ...task, name: taskName, category: selectedValue }
                     : task
             );
-            setTasks(updatedTasks);
             setEditTaskId(null);
         } else {
-            // Add new task
             const newTask = {
                 id: Date.now(),
                 name: taskName,
                 category: selectedValue,
                 completed: false,
             };
-            setTasks([newTask, ...tasks]);
+            updatedTasks = [newTask, ...tasks];
         }
 
+        setTasks(updatedTasks);
         setTaskName('');
         setSelectedValue('');
+        calculateAndSaveStats(updatedTasks);
     };
 
     // Toggle task completion
@@ -63,9 +69,17 @@ const Managetask = () => {
             task.id === id ? { ...task, completed: !task.completed } : task
         );
         setTasks(updatedTasks);
+        calculateAndSaveStats(updatedTasks);
     };
 
-    // Populate inputs for editing
+    // Delete task
+    const handleDelTask = (id) => {
+        const updatedTasks = tasks.filter((task) => task.id !== id);
+        setTasks(updatedTasks);
+        calculateAndSaveStats(updatedTasks);
+    };
+
+    // Populate task details for editing
     const handleEditTask = (id) => {
         const taskToEdit = tasks.find((task) => task.id === id);
         setTaskName(taskToEdit.name);
@@ -73,16 +87,12 @@ const Managetask = () => {
         setEditTaskId(id);
     };
 
-    // Delete a task
-    const handleDelTask = (id) => {
-        setTasks(tasks.filter((task) => task.id !== id));
-    };
-
-    // Apply filters
+    // Filter tasks based on category and completion
     const filteredTasks = tasks.filter((task) => {
-        let categoryMatch = !filterCategory || task.category === filterCategory;
-        let completionMatch =
-            filterCompletion === '' || task.completed === (filterCompletion === 'completed');
+        const categoryMatch = !filterCategory || task.category === filterCategory;
+        const completionMatch =
+            filterCompletion === '' ||
+            task.completed === (filterCompletion === 'completed');
         return categoryMatch && completionMatch;
     });
 
@@ -103,7 +113,6 @@ const Managetask = () => {
                         value={taskName}
                         onChangeText={setTaskName}
                     />
-
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={selectedValue}
@@ -126,7 +135,6 @@ const Managetask = () => {
 
                 {/* Filters */}
                 <View style={styles.filterContainer}>
-                    {/* Category Filter */}
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={filterCategory}
@@ -139,8 +147,6 @@ const Managetask = () => {
                             <Picker.Item label="Urgent" value="urgent" />
                         </Picker>
                     </View>
-
-                    {/* Completion Filter */}
                     <View style={styles.pickerContainer}>
                         <Picker
                             selectedValue={filterCompletion}
@@ -177,9 +183,7 @@ const Managetask = () => {
                                             size={24}
                                             color={task.completed ? '#28A745' : '#1B3A7A'}
                                         />
-                                        
                                     </TouchableOpacity>
-
                                     <TouchableOpacity
                                         onPress={() => handleEditTask(task.id)}
                                         style={styles.iconButton}
@@ -187,7 +191,6 @@ const Managetask = () => {
                                         <FontAwesome name="edit" size={20} color="#1B3A7A" />
                                         <Text style={styles.iconText}>Edit</Text>
                                     </TouchableOpacity>
-
                                     <TouchableOpacity
                                         onPress={() => handleDelTask(task.id)}
                                         style={[styles.iconButton, { marginLeft: 10 }]}
@@ -199,7 +202,6 @@ const Managetask = () => {
                             </View>
                         ))
                     ) : (
-                         // Display when list is empty
                         <Fallback />
                     )}
                 </ScrollView>
