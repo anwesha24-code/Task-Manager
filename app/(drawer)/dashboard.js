@@ -1,8 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { BarChart, PieChart } from 'react-native-chart-kit';
 import { auth, db } from "../firebase";
+
+const screenWidth = Dimensions.get("window").width;
 
 const Dashboard = () => {
   const router = useRouter();
@@ -36,7 +40,7 @@ const Dashboard = () => {
   };
 
   // Fetch user details (for demonstration)
-   const fetchUserData = async () => {
+  const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
@@ -91,11 +95,76 @@ const Dashboard = () => {
         <View style={[styles.graphCard, styles.card]}>
           <Text style={styles.subheading}>Task Distribution</Text>
           {/* Placeholder for Graph */}
+          <PieChart
+            data={[
+              {
+                name: "Completed",
+                population: taskCounts.completed,
+                color: "#4CAF50",
+                legendFontColor: "#343A40",
+                legendFontSize: 12,
+              },
+              {
+                name: "Incomplete",
+                population: taskCounts.incompleted,
+                color: "#F44336",
+                legendFontColor: "#343A40",
+                legendFontSize: 12,
+              },
+            ]}
+            width={Dimensions.get("window").width - 32} // Adjust width based on padding
+            height={200}
+            chartConfig={{
+              backgroundColor: "#E3F0FF",
+              backgroundGradientFrom: "#E3F0FF",
+              backgroundGradientTo: "#E3F0FF",
+              color: (opacity = 1) => `rgba(26, 115, 232, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            }}
+            accessor={"population"}
+            backgroundColor={"transparent"}
+            paddingLeft={"15"}
+            absolute // Display percentages inside slices
+          />
+
           <Text style={styles.placeholderText}>Graph 1 Placeholder</Text>
         </View>
+
+
+
+
         <View style={[styles.graphCard, styles.card]}>
           <Text style={styles.subheading}>Task Priority Levels</Text>
           {/* Placeholder for Graph */}
+
+          <BarChart
+            data={{
+              labels: ["Work", "Personal", "Urgent"],
+              datasets: [
+                {
+                  data: [taskCounts.work, taskCounts.personal, taskCounts.urgent],
+                },
+              ],
+            }}
+            width={screenWidth - 532} // Adjust for padding
+            height={220}
+            chartConfig={{
+              backgroundColor: "#1cc910",
+              backgroundGradientFrom: "#eff3ff",
+              backgroundGradientTo: "#efefef",
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(0, 0, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+            }}
+          />
+
+
           <Text style={styles.placeholderText}>Graph 2 Placeholder</Text>
         </View>
       </View>
