@@ -119,8 +119,8 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/taskmate-app.git
-cd taskmate-app
+git clone https://github.com/anwesha24-code/Task-Manager.git
+cd Task-Manager
 ```
 
 ### 2. Install Dependencies
