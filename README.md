@@ -74,14 +74,14 @@
 │   └── Fallback.js
 ├── contexts/
 │   └── TaskContext.js
-├── screens/
-│   ├── login.js
-│   ├── signup.js
-│   ├── (drawer)/dashboard.js
+├── (drawer)/
+│   ├── layout.tsx
+│   ├── dashboard.js
 │   ├── profile.js
-│   └── managetask.js
+│   └── managetask.jsx
+├── signup.jsx
+├── index.js
 ├── firebase.js
-├── App.js
 └── README.md
 ```
 
