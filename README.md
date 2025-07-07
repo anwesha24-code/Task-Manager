@@ -1,50 +1,180 @@
-# Welcome to your Expo app 👋
+# 🧠 TaskMate - React Native Firebase Task Manager
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**TaskMate** is a cross-platform productivity app built using **React Native + Expo**, designed to help users track, organize, and analyze tasks effectively. With **Firebase Authentication** and **Firestore**, it ensures secure user management and persistent data storage.
 
-## Get started
+---
 
-1. Install dependencies
+## 📲 Features
 
-   ```bash
-   npm install
-   ```
+- 🔐 **Firebase Auth**: Signup & login with email/password
+- 📝 **Task Management**: Add, edit, delete, filter & categorize tasks
+- 📊 **Dashboard Analytics**: Visual summary via Pie & Bar charts
+- 👤 **Profile Page**: View user details from Firestore
+- 📦 **Persistent Stats**: Data synced via AsyncStorage + Context API
+- ☁️ **Cloud Firestore Integration**
+- 📱 **Beautiful UI** using React Native components
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🧱 Pages & Components
 
-In the output, you'll find options to open the app in a
+### 🔐 **Signup Page**
+- Validates email format and required fields
+- Creates user via `createUserWithEmailAndPassword`
+- Saves user data (first name, last name, email) to Firestore
+- Redirects to Dashboard on successful signup
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🔐 **Login Page**
+- Logs in with Firebase credentials
+- Handles Firebase errors (wrong password, unregistered user)
+- Navigates to dashboard on success
+- Redirects to Signup if user not found
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### 📊 **Dashboard**
+- Fetches task stats (from AsyncStorage)
+- Uses `react-native-chart-kit` to render:
+  - 📘 Pie chart (completed vs incomplete)
+  - 📙 Bar chart (Work, Personal, Urgent)
+- Fetches user info from Firestore
 
-## Get a fresh project
+### 🧩 **ManageTask**
+- Add/edit/delete tasks
+- Categorize tasks (Work, Personal, Urgent)
+- Toggle completion
+- Filter by category or status
+- Saves and syncs task stats using React Context
 
-When you're ready, run:
+### 👤 **Profile**
+- Fetches user details from Firestore
+- Displays first name, last name, and email
+- Includes logout functionality
 
-```bash
-npm run reset-project
+---
+
+## 🛠️ Tech Stack
+
+| Technology       | Purpose                                  |
+|------------------|-------------------------------------------|
+| Expo + React Native | Cross-platform mobile development       |
+| Firebase Auth     | User authentication                      |
+| Firebase Firestore| Cloud-based user & task data storage     |
+| React Context API | Global task statistics state             |
+| AsyncStorage      | Local storage for task persistence       |
+| React Native Chart Kit | Pie & bar charts for visual analytics |
+| React Native Picker | Task category/filter dropdown UI        |
+| React Native Vector Icons | Icons for actions                 |
+
+---
+
+## 📁 Folder Structure
+
+```
+├── components/
+│   ├── MyButton.js
+│   └── Fallback.js
+├── contexts/
+│   └── TaskContext.js
+├── screens/
+│   ├── login.js
+│   ├── signup.js
+│   ├── (drawer)/dashboard.js
+│   ├── profile.js
+│   └── managetask.js
+├── firebase.js
+├── App.js
+└── README.md
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## ⚙️ Setup Instructions
 
-To learn more about developing your project with Expo, look at the following resources:
+### 1. Clone the Repo
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+git clone https://github.com/your-username/taskmate-app.git
+cd taskmate-app
+```
 
-## Join the community
+### 2. Install Dependencies
 
-Join our community of developers creating universal apps.
+```bash
+npm install
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 3. Set Up Firebase
+
+Create `firebase.js`:
+
+```js
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+
+✅ Enable:
+- Authentication (Email/Password)
+- Firestore Database in Firebase Console
+
+---
+
+## 🚀 Run the App
+
+```bash
+npx expo start
+```
+
+Scan the QR code with Expo Go on your device or use an emulator.
+
+---
+
+## 📦 Dependencies
+
+```bash
+npm install firebase
+npm install @react-native-async-storage/async-storage
+npm install @react-native-picker/picker
+npm install react-native-vector-icons
+npm install react-native-chart-kit react-native-svg
+npm install expo-router
+npm install react-hot-toast
+```
+
+> 🧪 Don’t forget to run `npx expo install` for native dependencies like `react-native-svg`.
+
+---
+
+## 🧠 Future Improvements
+
+- Add due dates & reminders
+- Profile picture upload (via Firebase Storage)
+- Push notifications for urgent tasks
+- Drag & drop task reordering
+- Light/Dark mode toggle
+
+---
+
+## 👩‍💻 Author
+
+Developed by [Your Name](https://github.com/your-username)
+
+---
+
+## 🪪 License
+
+Licensed under [MIT](LICENSE)
+
+---

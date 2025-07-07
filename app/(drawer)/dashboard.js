@@ -12,11 +12,11 @@ const Dashboard = () => {
   const router = useRouter();
   const [userDetails, setUserDetails] = useState(null);
   const [taskCounts, setTaskCounts] = useState({
-    completed: 0,
-    incompleted: 0,
-    work: 0,
+    completed: 3,
+    incompleted: 1,
+    work: 2,
     personal: 0,
-    urgent: 0,
+    urgent: 3,
   });
 
   // Fetch task counts from AsyncStorage
@@ -112,7 +112,7 @@ const Dashboard = () => {
                 legendFontSize: 12,
               },
             ]}
-            width={Dimensions.get("window").width - 32} // Adjust width based on padding
+            width={Dimensions.get("window").width - 732} // Adjust width based on padding
             height={200}
             chartConfig={{
               backgroundColor: "#E3F0FF",
@@ -146,7 +146,7 @@ const Dashboard = () => {
                 },
               ],
             }}
-            width={screenWidth - 532} // Adjust for padding
+            width={screenWidth - 1032} // Adjust for padding
             height={220}
             chartConfig={{
               backgroundColor: "#1cc910",
