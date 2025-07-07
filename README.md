@@ -24,11 +24,18 @@
 - Saves user data (first name, last name, email) to Firestore
 - Redirects to Dashboard on successful signup
 
+
+![Signup Page](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/SignupPage.png)
+
+
 ### 🔐 **Login Page**
 - Logs in with Firebase credentials
 - Handles Firebase errors (wrong password, unregistered user)
 - Navigates to dashboard on success
 - Redirects to Signup if user not found
+
+
+![Login Page](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/LoginPage.png)
 
 ### 📊 **Dashboard**
 - Fetches task stats (from AsyncStorage)
@@ -37,6 +44,10 @@
   - 📙 Bar chart (Work, Personal, Urgent)
 - Fetches user info from Firestore
 
+![Dashboard](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/Dashboard.png)
+
+![Drawer](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/SideNavBar.png)
+
 ### 🧩 **ManageTask**
 - Add/edit/delete tasks
 - Categorize tasks (Work, Personal, Urgent)
@@ -44,10 +55,26 @@
 - Filter by category or status
 - Saves and syncs task stats using React Context
 
+
+- Empty Task List
+![Empty Task List](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/InitialManageTaskPage.png)
+
+- Task List
+![Task List](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/ManageTaskPage.png)
+
+### **Filter**
+- Urgent Incomplete Tasks
+![Urgent Incomplete Tasks](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/Filter1.png)
+
+- All Completed Tasks
+![All Completed Tasks](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/Filter2.png)
+
 ### 👤 **Profile**
 - Fetches user details from Firestore
 - Displays first name, last name, and email
 - Includes logout functionality
+
+![Profile](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/Profile.png)
 
 ---
 
