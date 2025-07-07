@@ -108,21 +108,24 @@ Create `firebase.js`:
 
 ```js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth"; //register user
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyBTTX1XPEFb9sM4Bpz0fsa1pBisPk9C99Y",
+  authDomain: "rntaskmanager-4e83e.firebaseapp.com",
+  projectId: "rntaskmanager-4e83e",
+  storageBucket: "rntaskmanager-4e83e.firebasestorage.app",
+  messagingSenderId: "265997008127",
+  appId: "1:265997008127:web:c5bf04427b064c525020ca",
+  measurementId: "G-JCXQGHB6EZ"
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const auth=getAuth();
+export const db=getFirestore(app);
+
+export default app;
 ```
 
 ✅ Enable:
