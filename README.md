@@ -62,7 +62,7 @@
 - Task List
 ![Task List](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/ManageTaskPage.png)
 
-### **Filter**
+### 🔍**Filter**
 - Urgent Incomplete Tasks
 ![Urgent Incomplete Tasks](https://github.com/anwesha24-code/Task-Manager/blob/017168598406c4710caa99d6d7136c5f69805c23/Screenshots/Filter1.png)
 
