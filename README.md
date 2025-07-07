@@ -169,12 +169,6 @@ npm install react-hot-toast
 
 ## 👩‍💻 Author
 
-Developed by [Your Name](https://github.com/your-username)
-
----
-
-## 🪪 License
-
-Licensed under [MIT](LICENSE)
+Developed by [Anwesha Pal](https://github.com/anwesha24-code)
 
 ---
