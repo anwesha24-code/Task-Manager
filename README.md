@@ -2,6 +2,11 @@
 
 **TaskMate** is a cross-platform productivity app built using **React Native + Expo**, designed to help users track, organize, and analyze tasks effectively. With **Firebase Authentication** and **Firestore**, it ensures secure user management and persistent data storage.
 
+
+## 🚀 Live Demo
+
+[🔗 Click here to view the deployed site](#) *(https://task-manager-anwesha.netlify.app/)*
+
 ---
 
 ## 📲 Features
