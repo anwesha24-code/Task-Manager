@@ -8,6 +8,18 @@
 [🔗 Click here to view the deployed site](#) *(https://task-manager-anwesha.netlify.app/)*
 
 ---
+## 🛠️ Made Using
+
+<p align="center">
+  <!-- skillicons for most tech -->
+  <img src="https://skillicons.dev/icons?i=react,firebase,js,html,css,git,npm&theme=light" />
+  <br/>
+  <!-- manual icons for React Native & Expo -->
+  <img src="https://img.shields.io/badge/React%20Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" />
+</p>
+
+---
 
 ## 📲 Features
 
@@ -201,6 +213,7 @@ npm install react-hot-toast
 - Light/Dark mode toggle
 
 ---
+
 
 ## 👩‍💻 Author
 
