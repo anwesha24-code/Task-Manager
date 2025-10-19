@@ -5,7 +5,8 @@
 
 ## 🚀 Live Demo
 
-[🔗 Click here to view the deployed site](#) *(https://task-manager-anwesha.netlify.app/)*
+[🔗 Live Demo](https://task-manager-anwesha.netlify.app/)
+
 
 ---
 ## 🛠️ Made Using
